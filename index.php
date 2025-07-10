@@ -13,17 +13,6 @@
             <div class="logo">
                 <a href="index.php">File Transfer</a>
             </div>
-            <button class="menu-toggle" aria-label="Toggle navigation" onclick="toggleMenu()">
-                <i class="fas fa-bars" style="display: flex; margin-left: auto; align-items: right; justify-content: right; margin-top:-45px;"></i>
-            </button>
-
-            <nav id="navMenu">
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="about.php">About</a></li>
-                    <li><a href="privacy.php">Privacy Policy</a></li>
-                </ul>
-            </nav>
         </header>
 
         <div class="container" >

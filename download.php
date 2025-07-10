@@ -3,13 +3,22 @@ if (isset($_GET['code'])) {
     $code = $_GET['code'];
     $filePath = null;
     $fileName = null;
+    $filesToDelete = [];
 
-    // Try to find a single file first
+    // Try to find a single file first, excluding .json files
+    $singleFileFound = false;
     $singleFiles = glob('uploads/' . $code . '.*');
-    if (count($singleFiles) > 0) {
-        $filePath = $singleFiles[0];
-        $fileName = basename($filePath);
-    } else {
+    foreach ($singleFiles as $file) {
+        if (pathinfo($file, PATHINFO_EXTENSION) !== 'json') {
+            $filePath = $file;
+            $fileName = basename($filePath);
+            $filesToDelete[] = $filePath; // Mark single file for deletion
+            $singleFileFound = true;
+            break; // Found the single file, no need to check others
+        }
+    }
+
+    if (!$singleFileFound) {
         // If not a single file, try to find a manifest file for multiple files
         $manifestPath = 'uploads/' . $code . '.json';
         if (file_exists($manifestPath)) {
@@ -29,6 +38,7 @@ if (isset($_GET['code'])) {
 
                         if (file_exists($fullStoredPath)) {
                             $zip->addFile($fullStoredPath, $originalName);
+                            $filesToDelete[] = $fullStoredPath; // Mark individual files for deletion
                         } else {
                             // Log error or handle missing file
                         }
@@ -37,6 +47,7 @@ if (isset($_GET['code'])) {
 
                     $filePath = $zipPath;
                     $fileName = $zipName;
+                    $filesToDelete[] = $manifestPath; // Mark manifest for deletion
                 } else {
                     echo "Error: Could not create the zip file on the fly.";
                     exit;
@@ -59,7 +70,13 @@ if (isset($_GET['code'])) {
         if (isset($zipPath) && file_exists($zipPath)) {
             unlink($zipPath);
         }
-        // Do NOT delete individual files after download
+
+        // Delete all associated files from the uploads folder
+        foreach ($filesToDelete as $file) {
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
         exit;
     } else {
         echo 'Invalid code or file not found.';

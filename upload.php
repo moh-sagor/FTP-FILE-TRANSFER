@@ -97,9 +97,9 @@ if (isset($_FILES['files'])) {
                 } else {
                     echo "Error: Could not create manifest file.";
                 }
+            } else {
+                echo implode("\n", $errors);
             }
-        } else {
-            echo implode("\n", $errors);
         }
     } else {
         if (!empty($errors)) {

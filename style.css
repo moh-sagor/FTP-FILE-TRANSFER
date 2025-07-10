@@ -61,21 +61,21 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 1.5rem;
+}
+
+nav ul li {
+    margin-left: 1.25rem; /* 20px */
 }
 
 nav ul li a {
     text-decoration: none;
     color: #333;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: background 0.3s ease, color 0.3s ease;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    background-color: #007bff;
-    color: white;
+    color: #007bff;
 }
 .container {
     background: rgba(255, 255, 255, 0.1);
@@ -266,53 +266,26 @@ footer {
         padding: 0.625rem; /* 10px */
     }
 
-     header {
-        flex-wrap: wrap;
-        padding: 1rem;
-        border-radius: 1rem;
+    header {
+        flex-direction: column; /* Revert to column for header on mobile */
+        justify-content: center;
+        padding: 0.9375rem; /* 15px */
+        border-radius: 0.625rem; /* 10px */
+        margin-bottom: 0.9375rem; /* 15px */
     }
 
-    .menu-toggle {
-        display: block;
-    }
-
-    nav {
-        width: 100%;
-    }
-
-    nav ul {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 1rem;
-        padding: 1rem 0;
-        margin-top: 0.5rem;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    }
-
-    nav.active ul {
-        display: flex;
-    }
-
-    nav ul li {
-        margin: 0.5rem 0;
-    }
-
-    nav ul li a {
-        display: block;
-        width: 100%;
-        text-align: center;
+    .logo a {
+        font-size: 1.25rem; /* 20px */
     }
 
     .container {
-        width: 92%;
+        width: 100%;
         padding: 0.9375rem; /* 15px */
         border-radius: 0.625rem; /* 10px */
     }
 
     .tabs {
-        flex-direction: flex;
+        flex-direction: column;
     }
 
     .tab {
@@ -360,6 +333,16 @@ footer {
     .content-section {
         padding: 1.25rem; /* 20px */
         border-radius: 0.625rem; /* 10px */
+    }
+}
+
+@media (max-width: 30em) { /* 480px */
+    h1 {
+        font-size: 1.25rem; /* 20px */
+    }
+
+    .code-container {
+        font-size: 1rem; /* 16px */
     }
 }
 
