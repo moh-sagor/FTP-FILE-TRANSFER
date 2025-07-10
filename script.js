@@ -3,6 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabContents = document.querySelectorAll('.tab-content');
     const fileInput = document.getElementById('file-input');
     const fileInfo = document.getElementById('file-info');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+
+    menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+    });
 
     fileInput.addEventListener('change', () => {
         fileInfo.innerHTML = '';

@@ -20,7 +20,9 @@ if (isset($_FILES['files'])) {
             $tmp_name = $files['tmp_name'][$key];
             $uploadedFiles[] = [
                 'name' => $name,
-                'tmp_name' => $tmp_name
+                'tmp_name' => $tmp_name,
+                'size' => $files['size'][$key],
+                'type' => $files['type'][$key]
             ];
         } else {
             $errorMessage = "Error uploading file '$name': ";
@@ -56,18 +58,48 @@ if (isset($_FILES['files'])) {
     }
 
     if (!empty($uploadedFiles) && empty($errors)) {
-        $zip = new ZipArchive();
-        $zipName = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6) . '.zip';
-        $zipPath = 'uploads/' . $zipName;
+        $code = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 6);
+        $uploadedFileDetails = [];
 
-        if ($zip->open($zipPath, ZipArchive::CREATE) === TRUE) {
-            foreach ($uploadedFiles as $file) {
-                $zip->addFile($file['tmp_name'], $file['name']);
+        if (count($uploadedFiles) === 1) {
+            // Handle single file upload
+            $file = $uploadedFiles[0];
+            $fileExt = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $newFileName = $code . '.' . $fileExt;
+            $fileDestination = 'uploads/' . $newFileName;
+
+            if (move_uploaded_file($file['tmp_name'], $fileDestination)) {
+                echo $code;
+            } else {
+                echo "Error: Could not move the uploaded file.";
             }
-            $zip->close();
-            echo substr($zipName, 0, 6);
         } else {
-            echo "Error: Could not create the zip file.";
+            // Handle multiple file upload: save individually and create manifest
+            foreach ($uploadedFiles as $index => $file) {
+                $fileExt = pathinfo($file['name'], PATHINFO_EXTENSION);
+                $uniqueFileName = $code . '_' . $index . '.' . $fileExt; // e.g., ABCDEF_0.jpg, ABCDEF_1.png
+                $fileDestination = 'uploads/' . $uniqueFileName;
+
+                if (move_uploaded_file($file['tmp_name'], $fileDestination)) {
+                    $uploadedFileDetails[] = [
+                        'original_name' => $file['name'],
+                        'stored_name' => $uniqueFileName
+                    ];
+                } else {
+                    $errors[] = "Error: Could not move uploaded file '" . $file['name'] . "'.";
+                }
+            }
+
+            if (empty($errors)) {
+                $manifestPath = 'uploads/' . $code . '.json';
+                if (file_put_contents($manifestPath, json_encode($uploadedFileDetails))) {
+                    echo $code;
+                } else {
+                    echo "Error: Could not create manifest file.";
+                }
+            }
+        } else {
+            echo implode("\n", $errors);
         }
     } else {
         if (!empty($errors)) {

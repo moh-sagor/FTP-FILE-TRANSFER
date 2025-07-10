@@ -9,11 +9,15 @@
 </head>
 <body>
     <div class="main-container">
-        <header>
+      <header>
             <div class="logo">
                 <a href="index.php">File Transfer</a>
             </div>
-            <nav>
+            <button class="menu-toggle" aria-label="Toggle navigation" onclick="toggleMenu()">
+                <i class="fas fa-bars" style="display: flex; margin-left: auto; align-items: right; justify-content: right; margin-top:-45px;"></i>
+            </button>
+
+            <nav id="navMenu">
                 <ul>
                     <li><a href="index.php">Home</a></li>
                     <li><a href="about.php">About</a></li>
@@ -21,7 +25,8 @@
                 </ul>
             </nav>
         </header>
-        <div class="container">
+
+        <div class="container" >
             <div class="tabs">
                 <div class="tab active" data-tab="send">Send</div>
                 <div class="tab" data-tab="receive">Receive</div>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - File Transfer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,7 +13,11 @@
             <div class="logo">
                 <a href="index.php">File Transfer</a>
             </div>
-            <nav>
+            <button class="menu-toggle" aria-label="Toggle navigation" onclick="toggleMenu()">
+                <i class="fas fa-bars" style="display: flex; margin-left: auto; align-items: right; justify-content: right; margin-top:-45px;"></i>
+            </button>
+
+            <nav id="navMenu">
                 <ul>
                     <li><a href="index.php">Home</a></li>
                     <li><a href="about.php">About</a></li>
@@ -37,5 +42,6 @@
             <p>&copy; 2024 File Transfer. All rights reserved.</p>
         </footer>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
